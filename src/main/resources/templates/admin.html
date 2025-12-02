@@ -230,7 +230,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Role</label>
-                            <select class="form-select" name="roles" multiple required>
+                            <select class="form-select" name="roleIds" multiple required>
                                 <option th:each="role : ${allRoles}"
                                         th:value="${role.id}"
                                         th:text="${role.name}"></option>
@@ -246,93 +246,93 @@
 
     </div>
 
-    <div th:each="user : ${users}" th:fragment="edit-modal">
-        <div th:id="'editModal' + ${user.id}" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit user</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <form th:action="@{/admin/{id}/update(id=${user.id})}" method="post">
-                        <div class="modal-body">
-                            <div class="container" style="max-width: 500px;">
-                                <div class="mb-3 text-center">
-                                    <strong>ID</strong>
-                                    <div class="mt-1">
-                                        <input type="text" class="form-control form-control-sm mx-auto"
-                                               style="max-width: 250px;" readonly th:value="${user.id}"/>
+        <div th:each="user : ${users}" th:fragment="edit-modal">
+            <div th:id="'editModal' + ${user.id}" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit user</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form th:action="@{/admin/{id}/update(id=${user.id})}" method="post">
+                            <div class="modal-body">
+                                <div class="container" style="max-width: 500px;">
+                                    <div class="mb-3 text-center">
+                                        <strong>ID</strong>
+                                        <div class="mt-1">
+                                            <input type="text" class="form-control form-control-sm mx-auto"
+                                                   style="max-width: 250px;" readonly th:value="${user.id}"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3 text-center">
-                                    <strong>First name</strong>
-                                    <div class="mt-1">
-                                        <input type="text" class="form-control form-control-sm mx-auto"
-                                               style="max-width: 250px;" name="name" th:value="${user.name}" required/>
+                                    <div class="mb-3 text-center">
+                                        <strong>First name</strong>
+                                        <div class="mt-1">
+                                            <input type="text" class="form-control form-control-sm mx-auto"
+                                                   style="max-width: 250px;" name="name" th:value="${user.name}" required/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3 text-center">
-                                    <strong>Last name</strong>
-                                    <div class="mt-1">
-                                        <input type="text" class="form-control form-control-sm mx-auto"
-                                               style="max-width: 250px;" name="surname" th:value="${user.surname}"
-                                               required/>
+                                    <div class="mb-3 text-center">
+                                        <strong>Last name</strong>
+                                        <div class="mt-1">
+                                            <input type="text" class="form-control form-control-sm mx-auto"
+                                                   style="max-width: 250px;" name="surname" th:value="${user.surname}"
+                                                   required/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3 text-center">
-                                    <strong>Age</strong>
-                                    <div class="mt-1">
-                                        <input type="number" class="form-control form-control-sm mx-auto"
-                                               style="max-width: 250px;" name="age" th:value="${user.age}" required
-                                               min="1"/>
+                                    <div class="mb-3 text-center">
+                                        <strong>Age</strong>
+                                        <div class="mt-1">
+                                            <input type="number" class="form-control form-control-sm mx-auto"
+                                                   style="max-width: 250px;" name="age" th:value="${user.age}" required
+                                                   min="1"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3 text-center">
-                                    <strong>Email</strong>
-                                    <div class="mt-1">
-                                        <input type="email" class="form-control form-control-sm mx-auto"
-                                               style="max-width: 250px;" name="username" th:value="${user.username}"
-                                               required/>
+                                    <div class="mb-3 text-center">
+                                        <strong>Email</strong>
+                                        <div class="mt-1">
+                                            <input type="email" class="form-control form-control-sm mx-auto"
+                                                   style="max-width: 250px;" name="username" th:value="${user.username}"
+                                                   required/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3 text-center">
-                                    <strong>Password</strong>
-                                    <div class="mt-1">
-                                        <input type="password" class="form-control form-control-sm mx-auto"
-                                               style="max-width: 250px;" name="password"/>
+                                    <div class="mb-3 text-center">
+                                        <strong>Password</strong>
+                                        <div class="mt-1">
+                                            <input type="password" class="form-control form-control-sm mx-auto"
+                                                   style="max-width: 250px;" name="password"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3 text-center">
-                                    <strong>Role</strong>
-                                    <div class="mt-1">
-                                        <select class="form-select form-select-sm mx-auto"
-                                                style="max-width: 250px;"
-                                                name="roles"
-                                                multiple
-                                                required>
-                                            <option th:each="role : ${allRoles}"
-                                                    th:value="${role.id}"
-                                                    th:selected="${user.roles.contains(role)}"
-                                                    th:text="${role.name}">
-                                            </option>
-                                        </select>
+                                    <div class="mb-3 text-center">
+                                        <strong>Role</strong>
+                                        <div class="mt-1">
+                                            <select class="form-select form-select-sm mx-auto"
+                                                    style="max-width: 250px;"
+                                                    name="roleIds"
+                                                    multiple
+                                                    required>
+                                                <option th:each="role : ${allRoles}"
+                                                        th:value="${role.id}"
+                                                        th:selected="${user.roles.contains(role)}"
+                                                        th:text="${role.name}">
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button"
-                                    class="btn btn-secondary"
-                                    data-bs-dismiss="modal">
-                                Close
-                            </button>
-                            <button type="submit" class="btn btn-primary">Edit</button>
-                        </div>
-                    </form>
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Edit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <div th:each="user : ${users}" th:fragment="delete-modal">
         <div th:id="'deleteModal' + ${user.id}" class="modal fade" tabindex="-1">

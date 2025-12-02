@@ -38,8 +38,10 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id")
     )
-
     private Set<Role> roles = new HashSet<>();
+
+    @Transient
+    private Set<Long> roleIds;
 
     public String getName() {
         return name;
@@ -63,6 +65,17 @@ public class User implements UserDetails {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Set<Long> getRoleIds() {
+        if (roleIds == null && roles != null) {
+            roleIds = roles.stream().map(Role::getId).collect(Collectors.toSet());
+        }
+        return roleIds;
+    }
+
+    public void setRoleIds(Set<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 
     public User() {
@@ -92,10 +105,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> authorities = roles.stream()
+        return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .collect(Collectors.toSet());
-        return authorities;
     }
 
     public Set<Role> getRoles() {

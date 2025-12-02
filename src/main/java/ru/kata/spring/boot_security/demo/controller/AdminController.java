@@ -10,8 +10,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -42,33 +40,20 @@ public class AdminController {
     }
 
     @PostMapping
-    public String createUser(@ModelAttribute("newUser") User user,
-                             @RequestParam List<Long> roles) {
-        Set<Role> roleObjects = roleService.findByIds(new HashSet<>(roles));
-        user.setRoles(roleObjects);
+    public String createUser(@ModelAttribute("user") User user) {
+        Set<Role> roles = roleService.findByIds(user.getRoleIds());
+        user.setRoles(roles);
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PostMapping("/{id}/update")
     public String updateUser(@PathVariable("id") Long id,
-                             @RequestParam String name,
-                             @RequestParam String surname,
-                             @RequestParam Integer age,
-                             @RequestParam String username,
-                             @RequestParam(required = false) String password,
-                             @RequestParam List<Long> roles) {
-        User existingUser = userService.getUserById(id);
-        existingUser.setName(name);
-        existingUser.setSurname(surname);
-        existingUser.setAge(age);
-        existingUser.setUsername(username);
-        if (password != null && !password.isEmpty()) {
-            existingUser.setPassword(password);
-        }
-        Set<Role> roleObjects = roleService.findByIds(new HashSet<>(roles));
-        existingUser.setRoles(roleObjects);
-        userService.saveUser(existingUser);
+                             @ModelAttribute("user") User user) {
+        Set<Role> roles = roleService.findByIds(user.getRoleIds());
+        user.setRoles(roles);
+        user.setId(id);
+        userService.saveUser(user);
         return "redirect:/admin";
     }
 
